@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <title>TEWA Education Consultancy - Study in Japan | April & October Intake</title>
+    <meta name="description"
+        content="TEWA Education Consultancy - Direct connection to Japanese colleges and universities. Study and work in Japan with 100% scholarship opportunities. April and October intake now open.">
+    <meta name="keywords"
+        content="study in Japan, work in Japan, Japanese language classes, N5 N4 preparation, SSW visa, student visa Nepal, TEWA Education, Japan scholarship, April intake, October intake">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="TEWA Education Consultancy - Study in Japan">
+    <meta property="og:description"
+        content="Direct connection to Japanese colleges. April and October intake open. 100% scholarship available.">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Professional Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <div class="logo-mark">
+                    <img src="images/logo.png" alt="TEWA Education Consultancy Logo">
+                </div>
+                <div class="logo-text">
+                    <span class="brand">TEWA </span>
+                    <span class="tagline">Education Consultancy</span>
+                </div>
+            </a>
+
+            <!-- Contact & Navigation -->
+            <div class="nav-contact-info">
+                <a href="tel:+9779767474000" class="nav-phone-box">
+                    <span class="icon">📞</span>
+                    <div class="info">
+                        <span class="label">Call Now</span>
+                        <span class="number">+977-9767474000</span>
+                    </div>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="intakes.html">Intakes</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="intakes.html" class="nav-cta">Apply Now</a></li>
+                </ul>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Study In <span>Japan</span></h1>
+                <p class="hero-subtitle">Direct Partnerships with Leading Japanese Colleges and Universities</p>
+
+                <div class="hero-quote">
+                    <p>"जापानी भाषा राम्रोसँग पढेर जापान जान चाहनेले मात्र प्रयास गर्नुहोला।"</p>
+                </div>
+
+                <div class="hero-features">
+                    <div class="hero-feature">N5 & N4 Classes</div>
+                    <div class="hero-feature">SSW / Student Visa</div>
+                    <div class="hero-feature">Gap Acceptable</div>
+                    <div class="hero-feature">100% Scholarship in Japan</div>
+                    <div class="hero-feature">Past COE Rejected Accepted</div>
+                    <div class="hero-feature">Expert Documentation</div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="intakes.html" class="btn-primary">
+                        Apply April Intake
+                    </a>
+                    <a href="intakes.html" class="btn-primary" style="background: var(--tewa-blue);">
+                        Apply October Intake
+                    </a>
+                    <a href="https://wa.me/9779767474000" class="btn-secondary" target="_blank">
+                        Free Consultation
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <!-- Hero Image Slider -->
+                <div class="hero-slider" id="heroSlider">
+                    <div class="slider-slides">
+                        <div class="slide active">
+                            <img src="images/sakura.png" alt="Student Success - Study in Japan" class="student-image">
+                        </div>
+                        <div class="slide">
+                            <img src="images/classroom.png" alt="Japanese Language Classes" class="student-image">
+                        </div>
+                        <div class="slide">
+                            <img src="images/queen.png" alt="Kaigo Caregiver Program" class="student-image">
+                        </div>
+                    </div>
+
+                    <!-- Arrow Controls -->
+                    <button class="slider-arrow prev" onclick="prevHeroSlide(event)"
+                        aria-label="Previous Slide">&lsaquo;</button>
+                    <button class="slider-arrow next" onclick="nextHeroSlide(event)"
+                        aria-label="Next Slide">&rsaquo;</button>
+
+                    <!-- Slide Indicators -->
+                    <div class="slider-dots">
+                        <span class="dot active" onclick="setHeroSlide(0)"></span>
+                        <span class="dot" onclick="setHeroSlide(1)"></span>
+                        <span class="dot" onclick="setHeroSlide(2)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <h2>Success Stories</h2>
+            <p>What our students say about TEWA</p>
+        </div>
+
+        <div class="success-carousel-wrapper">
+            <!-- Navigation Buttons -->
+            <button class="carousel-nav prev-btn" id="prevTestimonial" aria-label="Previous Success Story"
+                onclick="prevTestimonialSlide(event)">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="carousel-nav next-btn" id="nextTestimonial" aria-label="Next Success Story"
+                onclick="nextTestimonialSlide(event)">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="success-carousel-track-container">
+                <div class="success-carousel-track" id="successCarouselTrack"></div>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="success-carousel-dots" id="successCarouselDots">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>TEWA Education</h3>
+                <p>Your trusted partner for studying and working in Japan. Direct connection to Japanese colleges with
+                    expert documentation support.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="intakes.html">Intakes</a>
+                <a href="services.html">Our Services</a>
+                <a href="gallery.html">Gallery</a>
+            </div>
+            <div class="footer-section">
+                <h3>Intakes</h3>
+                <a href="intakes.html">🌸 April Intake (Main Intake)</a>
+                <a href="intakes.html">🍂 October Intake (Secondary Intake)</a>
+                <a href="services.html">Expert Documentation</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Bhaktapur-4, Suryabinayak Chowk</p>
+                <p>+977-15920652</p>
+                <p>+977-9767474000</p>
+                <p>tewa.educ@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-cta">Start Your Journey to Japan Today 🎌</p>
+            <p style="opacity: 0.7; margin-bottom: 20px;">Copyright © 2026 TEWA Education Consultancy. All Rights Reserved. Developed By: <a href="https://tharuakash.com.np/" target="_blank">Digital Keylor</a></p>
+            <h3>Follow Us</h3>
+            <div class="social-links">
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+                <a href="https://wa.me/9779767474000" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/tewaeducations_" class="social-icon"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/share/17DeCMUUZL/" class="social-icon"><i
+                        class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@tewa.education?_r=1&_t=ZS-95aEPjAPXfg" class="social-icon"><i
+                        class="fa-brands fa-tiktok"></i></a>
+
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/9779767474000" class="whatsapp-btn" target="_blank" title="Chat on WhatsApp">
+        💬
+    </a>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

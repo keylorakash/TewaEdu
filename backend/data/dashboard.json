@@ -1,0 +1,113 @@
+{
+  "brand": "TEWA Education",
+  "subtitle": "Education Consultancy ",
+  "welcome": "Welcome, Admin",
+  "profile": {
+    "name": "TEWA Education",
+    "role": "Japan Education Consultancy",
+    "bio": "Helping students study, work, and build their future in Japan.",
+    "email": "tewa.educ@gmail.com",
+    "phone": "+977-9767474000",
+    "image": "/images/logo.png"
+  },
+  "photos": [
+    {
+      "image": "/images/logo.png",
+      "caption": "TEWA Education logo"
+    }
+  ],
+  "containers": [
+    {
+      "id": "home",
+      "name": "Hero",
+      "heading": "Study In Japan"
+    },
+    {
+      "id": "about",
+      "name": "About TEWA",
+      "heading": "Guiding Your Path to Success in Japan"
+    },
+    {
+      "id": "language-programs",
+      "name": "Language Programs",
+      "heading": "Japanese Language Courses & Tests"
+    },
+    {
+      "id": "kaigo-program",
+      "name": "Kaigo Program",
+      "heading": "Kaigo (介護) Scholarship Program"
+    },
+    {
+      "id": "services",
+      "name": "Services",
+      "heading": "Our Services"
+    },
+    {
+      "id": "why-us",
+      "name": "Why Choose Us",
+      "heading": "Why Choose TEWA?"
+    },
+    {
+      "id": "apply",
+      "name": "Application",
+      "heading": "Apply Now"
+    },
+    {
+      "id": "testimonials",
+      "name": "Testimonials",
+      "heading": "Success Stories"
+    },
+    {
+      "id": "gallery",
+      "name": "Gallery",
+      "heading": "Gallery"
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "heading": "Contact Us"
+    }
+  ],
+  "cards": [
+    {
+      "label": "New Leads",
+      "value": "0",
+      "color": "#ef4444"
+    },
+    {
+      "label": "Unread Messages",
+      "value": "0",
+      "color": "#3b82f6"
+    }
+  ],
+  "whyChoose": {
+    "subtitle": "Your trusted partner for Japan education since 2024",
+    "items": [
+      {
+        "icon": "📅",
+        "title": "Flexible Class Schedule",
+        "text": "Learn Japanese at timings that fit your lifestyle and commitments."
+      },
+      {
+        "icon": "👨‍🏫",
+        "title": "Experienced Instructors",
+        "text": "Practical, engaging, and result-oriented Japanese language training."
+      },
+      {
+        "icon": "📋",
+        "title": "Complete Application Support",
+        "text": "From school selection to document preparation, we simplify the process."
+      },
+      {
+        "icon": "📝",
+        "title": "Exam Registration Assistance",
+        "text": "Get professional guidance for Japanese language proficiency tests."
+      },
+      {
+        "icon": "🎓",
+        "title": "Scholarship Opportunities",
+        "text": "Explore special scholarship pathways, including Kaigo (介護) programs, one of the most in-demand jobs in Japan."
+      }
+    ]
+  }
+}

@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <title>TEWA Education - Admin Login</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(12, 47, 125, 0.12);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            display: none;
+            max-width: 1440px;
+            min-height: calc(100vh - 40px);
+        }
+
+        .admin-container.authenticated {
+            display: block;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .admin-shell { display: grid; grid-template-columns: 245px 1fr; min-height: calc(100vh - 40px); }
+        .admin-sidebar { background: #101829; color: white; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 28px 22px; border-bottom: 1px solid #273147; }
+        .sidebar-brand img { width: 48px; height: 48px; object-fit: contain; background: white; border-radius: 8px; float: left; margin-right: 12px; }
+        .sidebar-brand strong { display: block; padding-top: 3px; font-size: 18px; }
+        .sidebar-brand span { color: #9eabc2; font-size: 13px; }
+        .sidebar-nav { padding: 16px; }
+        .sidebar-nav button { width: 100%; margin-bottom: 8px; padding: 13px 16px; text-align: left; background: transparent; color: #d9e1ef; }
+        .sidebar-nav button.active, .sidebar-nav button:hover { background: #ed292d; color: white; }
+        .sidebar-footer { margin-top: auto; padding: 16px; }
+        .sidebar-footer a { display: block; color: #d9e1ef; text-align: center; text-decoration: none; padding: 12px; }
+        .admin-main { background: #f2f5f9; min-width: 0; }
+        .admin-topbar { height: 64px; background: white; border-bottom: 1px solid #e5eaf1; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; }
+        .admin-topbar h2 { font-size: 20px; color: #111827; }
+        .admin-welcome { color: #718096; }
+        .admin-avatar { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; margin-left: 10px; border-radius: 50%; background: #123891; color: white; font-weight: 700; }
+        .dashboard-view { padding: 26px; }
+        .dashboard-view[hidden], .dashboard-editor[hidden] { display: none; }
+        .dashboard-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .dashboard-card { background: white; border-radius: 14px; padding: 26px; min-height: 145px; box-shadow: 0 8px 18px rgba(24, 39, 75, .08); }
+        .card-accent { display: block; width: 68px; height: 13px; border-radius: 8px; margin-bottom: 25px; background: #20bf55; }
+        .dashboard-card label { color: #708099; font-size: 16px; font-weight: 400; }
+        .dashboard-card strong { display: block; margin-top: 12px; color: #050505; font-size: 36px; line-height: 1; }
+        .dashboard-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 24px; }
+        .profile-panel, .photos-panel { background: white; border-radius: 14px; padding: 26px; margin-top: 24px; }
+        .profile-panel { display: flex; gap: 22px; align-items: center; }
+        .profile-panel img { width: 100px; height: 100px; border-radius: 12px; object-fit: contain; background: #f4f7fb; padding: 8px; }
+        .profile-panel h3, .photos-panel h3 { margin-bottom: 8px; color: #111; font-size: 23px; }
+        .profile-panel p { color: #718096; margin: 4px 0; }
+        .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .photo-item { min-width: 0; }
+        .photo-item img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; background: #f2f5f9; }
+        .photo-item p { color: #718096; font-size: 13px; margin-top: 7px; }
+        .dashboard-panel { background: white; border-radius: 14px; padding: 26px; min-height: 210px; }
+        .dashboard-panel h3 { margin-bottom: 20px; color: #111; font-size: 23px; }
+        .dashboard-panel p { color: #718096; padding: 12px 0; border-bottom: 1px solid #e5eaf1; }
+        .messages-view { padding: 26px; }
+        .messages-view[hidden] { display: none; }
+        .message-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 14px; box-shadow: 0 6px 16px rgba(24, 39, 75, .07); }
+        .message-card h3 { color: #111827; margin-bottom: 6px; }
+        .message-card p { color: #52627a; margin: 5px 0; }
+        .message-card .message-body { color: #111827; margin-top: 14px; padding-top: 14px; border-top: 1px solid #e5eaf1; }
+        .message-actions { display: flex; gap: 8px; margin-top: 16px; }
+        .message-actions button { border: 0; border-radius: 8px; padding: 9px 12px; cursor: pointer; font-weight: 600; }
+        .message-actions .read-btn { background: #e7f0ff; color: #2455a4; }
+        .message-actions .delete-message-btn { background: #ffe8e8; color: #b42318; }
+        .testimonials-manager-view { padding: 26px; }
+        .testimonial-admin-card { background: white; border-radius: 14px; padding: 24px; margin-bottom: 18px; box-shadow: 0 8px 18px rgba(24, 39, 75, .08); }
+        .testimonial-admin-card h3 { color: #111827; margin-bottom: 18px; }
+        .testimonial-admin-actions { display: flex; gap: 8px; }
+        .testimonial-admin-actions button { border: 0; border-radius: 8px; padding: 9px 14px; cursor: pointer; font-weight: 600; }
+        .testimonial-admin-actions .delete-testimonial-btn { background: #ffe8e8; color: #b42318; }
+        .dashboard-editor { margin: 0 26px 26px; padding: 24px; background: white; border-radius: 14px; }
+        .dashboard-editor h3 { margin-bottom: 18px; }
+        .dashboard-editor .form-row { grid-template-columns: 1fr 1fr 1fr; }
+
+        .media-manager-view { padding: 26px; }
+        .media-manager-view[hidden] { display: none; }
+        .media-panel { background: white; border-radius: 18px; padding: 24px; box-shadow: 0 12px 28px rgba(17, 24, 39, 0.08); margin-bottom: 24px; }
+        .media-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .media-header h3 { font-size: 24px; color: #111827; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+        .media-card {
+            position: relative; background: linear-gradient(180deg, #f9fbff, #edf2ff); border: 1px solid #dfe7f7; border-radius: 18px; padding: 10px; transition: transform 0.2s ease, box-shadow 0.2s ease; overflow: hidden;
+        }
+        .media-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(26, 58, 120, 0.12); }
+        .media-card.dragging { opacity: 0.5; }
+        .media-card .drag-handle { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 10px; background: rgba(16,54,154,0.12); color: #10369a; display: inline-flex; align-items: center; justify-content: center; cursor: grab; font-size: 20px; }
+        .media-preview { position: relative; width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: #eef4ff; display: flex; align-items: center; justify-content: center; }
+        .media-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .media-info { padding-top: 10px; }
+        .media-info strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 12px; font-size: 14px; color: #0f172a; }
+        .media-actions { display: flex; gap: 8px; }
+        .media-actions button {
+            flex: 1; padding: 9px 12px; border-radius: 10px; font-size: 12px; border: none; cursor: pointer; font-weight: 700;
+        }
+        .media-actions .replace-btn { background: #e9f0ff; color: #10369a; }
+        .media-actions .delete-btn { background: #ffe8e8; color: #b42318; }
+        .upload-box {
+            border: 2px dashed #bfd0ff; border-radius: 16px; padding: 20px; text-align: center; background: linear-gradient(135deg, #f7f9ff, #edf3ff); color: #48628d; cursor: pointer; transition: all 0.2s ease; min-height: 88px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; font-weight: 600;
+        }
+        .upload-box:hover { border-color: #7aa2ff; background: #f1f6ff; }
+        .upload-box input { display: none; }
+        .upload-box small { display: block; color: #667085; }
+        .toast-container { position: fixed; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999; }
+        .toast { padding: 12px 18px; border-radius: 12px; color: white; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.12); opacity: 0; transform: translateY(-10px); animation: fadeInOut 3.5s ease forwards; }
+        .toast.success { background: #1f9d67; }
+        .toast.error { background: #d14343; }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateY(-10px); } 10%, 85% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-10px); } }
+
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(12, 47, 125, 0.12);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px;
+            border: 1px solid #edf1f8;
+        }
+
+        .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-brand img {
+            width: 88px;
+            height: 88px;
+            object-fit: contain;
+            margin-bottom: 18px;
+        }
+
+        .login-brand h1 {
+            color: #10358f;
+            margin-bottom: 8px;
+            font-size: 28px;
+            letter-spacing: 0;
+        }
+
+        .login-brand p {
+            color: #ef2525;
+            font-size: 14px;
+            letter-spacing: 0.8px;
+            margin: 0;
+        }
+
+        .login-error {
+            color: #721c24;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .password-input input {
+            padding-right: 46px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px;
+            background: transparent;
+            color: #687d9e;
+            font-size: 18px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: #10369a;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 28px;
+            padding-top: 26px;
+            border-top: 1px solid #edf1f8;
+            color: #10369a;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #666;
+            flex: 1;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .status-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .password-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .password-section label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .security-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .intake-preview {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .intake-preview h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .intake-preview p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        /* ================================
+   RESPONSIVE ADMIN PANEL
+================================ */
+
+/* Tablet */
+@media (max-width: 1100px) {
+    .admin-container {
+        max-width: 100%;
+    }
+
+    .admin-shell {
+        grid-template-columns: 210px 1fr;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .media-grid {
+        grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+}
+
+
+/* Tablet / Small Laptop */
+@media (max-width: 900px) {
+
+    body {
+        padding: 0;
+        align-items: stretch;
+    }
+
+    .admin-container {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    .admin-shell {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Sidebar becomes top navigation */
+    .admin-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .sidebar-brand {
+        padding: 18px;
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar-brand img {
+        width: 42px;
+        height: 42px;
+        float: none;
+        margin-right: 10px;
+    }
+
+    .sidebar-brand strong {
+        padding-top: 0;
+        font-size: 17px;
+    }
+
+    .sidebar-brand span {
+        font-size: 12px;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+    }
+
+    .sidebar-nav button {
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 145px;
+        margin-bottom: 0;
+        white-space: nowrap;
+        padding: 11px 14px;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .admin-main {
+        width: 100%;
+    }
+
+    .admin-topbar {
+        height: 60px;
+        padding: 0 20px;
+    }
+
+    .dashboard-view,
+    .messages-view,
+    .media-manager-view {
+        padding: 20px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-sections {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .media-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+
+    #intakesView {
+        padding: 20px;
+    }
+
+    .dashboard-editor {
+        margin: 0 20px 20px;
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    body {
+        padding: 0;
+        display: block;
+        background: #f2f5f9;
+    }
+
+    /* Login */
+    .login-container {
+        width: calc(100% - 30px);
+        max-width: 420px;
+        margin: 15px auto;
+        padding: 28px 20px;
+        border-radius: 12px;
+    }
+
+    .login-brand {
+        margin-bottom: 25px;
+    }
+
+    .login-brand img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .login-brand h1 {
+        font-size: 24px;
+    }
+
+    .login-brand p {
+        font-size: 11px;
+    }
+
+    /* Admin */
+    .admin-container {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .admin-shell {
+        min-height: 100vh;
+    }
+
+    /* Brand */
+    .sidebar-brand {
+        padding: 14px 16px;
+    }
+
+    .sidebar-brand img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .sidebar-brand strong {
+        font-size: 16px;
+    }
+
+    .sidebar-brand span {
+        font-size: 11px;
+    }
+
+    /* Navigation */
+    .sidebar-nav {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .sidebar-nav button {
+        min-width: 125px;
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    /* Top bar */
+    .admin-topbar {
+        height: 56px;
+        padding: 0 14px;
+    }
+
+    .admin-topbar h2 {
+        font-size: 17px;
+    }
+
+    .admin-welcome {
+        display: none;
+    }
+
+    .admin-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
+        margin-left: 0;
+    }
+
+    /* Dashboard */
+    .dashboard-view,
+    .messages-view,
+    .media-manager-view {
+        padding: 14px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .dashboard-card strong {
+        font-size: 30px;
+    }
+
+    .dashboard-sections {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 14px;
+    }
+
+    .dashboard-panel {
+        padding: 18px;
+    }
+
+    .dashboard-panel h3 {
+        font-size: 19px;
+    }
+
+    /* Profile */
+    .profile-panel {
+        padding: 18px;
+        margin-top: 14px;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .profile-panel img {
+        width: 85px;
+        height: 85px;
+    }
+
+    .profile-panel h3 {
+        font-size: 19px;
+    }
+
+    .profile-panel p {
+        font-size: 13px;
+        word-break: break-word;
+    }
+
+    /* Photos */
+    .photos-panel {
+        padding: 18px;
+        margin-top: 14px;
+    }
+
+    .photos-panel h3 {
+        font-size: 20px;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .photo-item p {
+        font-size: 11px;
+    }
+
+    /* Media manager */
+    /* ================================
+   RESPONSIVE MEDIA EDITOR
+   ================================ */
+
+@media (max-width: 800px) {
+
+    .media-manager-view {
+        padding: 14px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .media-panel {
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 14px;
+        width: 100%;
+    }
+
+    .media-header {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .media-header h3 {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+    .upload-box {
+        width: 100%;
+        min-height: 75px;
+        padding: 14px;
+    }
+
+    /* 2 images per row on tablet/mobile */
+    .media-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .media-card {
+        width: 100%;
+        min-width: 0;
+        padding: 8px;
+        border-radius: 14px;
+    }
+
+    .media-preview {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+    }
+
+    .media-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .media-info {
+        padding-top: 8px;
+        min-width: 0;
+    }
+
+    .media-info strong {
+        font-size: 12px;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .media-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .media-actions button {
+        width: 100%;
+        min-height: 36px;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
+    .media-card .drag-handle {
+        width: 28px;
+        height: 28px;
+        top: 8px;
+        right: 8px;
+        font-size: 17px;
+        z-index: 2;
+    }
+}
+
+
+/* ================================
+   SMALL PHONES
+   ================================ */
+
+@media (max-width: 480px) {
+
+    .media-manager-view {
+        padding: 10px;
+    }
+
+    .media-panel {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .media-header h3 {
+        font-size: 18px;
+    }
+
+    .upload-box {
+        min-height: 70px;
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .upload-box small {
+        font-size: 11px;
+    }
+
+    /* Keep 2 images per row */
+    .media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .media-card {
+        padding: 6px;
+        border-radius: 11px;
+    }
+
+    .media-preview {
+        aspect-ratio: 1 / 1;
+        border-radius: 8px;
+    }
+
+    .media-info {
+        padding-top: 6px;
+    }
+
+    .media-info strong {
+        font-size: 10px;
+        margin-bottom: 6px;
+    }
+
+    .media-actions {
+        gap: 5px;
+    }
+
+    .media-actions button {
+        min-height: 32px;
+        padding: 6px 4px;
+        font-size: 10px;
+        border-radius: 7px;
+    }
+
+    .media-card .drag-handle {
+        width: 24px;
+        height: 24px;
+        top: 6px;
+        right: 6px;
+        font-size: 15px;
+    }
+}
+
+    /* Messages */
+    .messages-view h2 {
+        font-size: 20px;
+    }
+
+    .message-card {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .message-card h3 {
+        font-size: 16px;
+    }
+
+    .message-card p {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    /* Intake Management */
+    #intakesView {
+        padding: 16px;
+    }
+
+    #intakesView > h1 {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    #intakesView > p {
+        font-size: 13px;
+        margin-bottom: 20px !important;
+    }
+
+    .tabs {
+        gap: 4px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+
+    .tab-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    input,
+    textarea {
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .button-group button {
+        width: 100%;
+    }
+
+    .intake-preview {
+        padding: 13px;
+        font-size: 12px;
+    }
+}
+
+
+/* Very small phones */
+@media (max-width: 380px) {
+
+    .sidebar-nav button {
+        min-width: 110px;
+        font-size: 11px;
+        padding: 9px 10px;
+    }
+
+    .media-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .media-actions {
+        flex-direction: column;
+    }
+
+    .media-actions button {
+        width: 100%;
+    }
+
+    .dashboard-card {
+        padding: 16px;
+    }
+
+    .dashboard-card strong {
+        font-size: 26px;
+    }
+
+    .photo-grid {
+        gap: 7px;
+    }
+
+    .tab-btn {
+        min-width: 105px;
+        font-size: 11px;
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <div class="login-brand">
+            <img src="images/logo.png" alt="TEWA Education logo">
+            <h1>TEWA Education</h1>
+            <p>SECURE MASTER-ADMIN PORTAL</p>
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" autocomplete="username" value="admin" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <div class="password-input">
+                    <input type="password" id="loginPassword" autocomplete="current-password" required>
+                    <button class="toggle-password" type="button" id="togglePassword" aria-label="Show password">&#128065;</button>
+                </div>
+            </div>
+            <button type="submit" class="btn-save">Log In</button>
+        </form>
+        <a class="back-link" href="https://nepalrastriyanews.com/admin/login">&#8592; Back to website</a>
+    </div>
+
+    <div class="admin-container" id="adminContainer">
+        <div class="admin-shell">
+            <aside class="admin-sidebar">
+                <div class="sidebar-brand">
+                    <img src="images/logo.png" alt="TEWA Education logo">
+                    <strong id="sidebarBrand">TEWA Education</strong>
+                    <span id="sidebarSubtitle">Education CMS</span>
+                </div>
+                <nav class="sidebar-nav" aria-label="Admin navigation">
+                    <button type="button" class="active" data-view="dashboard">▦ &nbsp; Dashboard</button>
+                    <button type="button" data-view="media">🖼️ &nbsp; Media Editor</button>
+                    <button type="button" data-view="intakes">◫ &nbsp; Manage Intakes</button>
+                    <button type="button" data-view="messages">✉ &nbsp; Messages</button>
+                    <button type="button" data-view="testimonials">★ &nbsp; Success Stories</button>
+                </nav>
+                <div class="sidebar-footer"><a href="https://nepalrastriyanews.com/admin/login">↪ &nbsp; Back to website</a></div>
+            </aside>
+            <main class="admin-main">
+                <header class="admin-topbar">
+                    <h2 id="pageTitle">Dashboard</h2>
+                    <div><span class="admin-welcome" id="welcomeText">Welcome, Admin</span><span class="admin-avatar">AD</span></div>
+                </header>
+
+                <section class="dashboard-view" id="dashboardView">
+                    <div class="dashboard-cards" id="dashboardCards"></div>
+                    <section class="profile-panel"><img id="profileImage" src="images/logo.png" alt="TEWA profile"><div><h3 id="profileName">TEWA Education</h3><p id="profileRole"></p><p id="profileBio"></p><p id="profileContact"></p></div></section>
+                    <section class="photos-panel"><h3>TEWA Photos</h3><div class="photo-grid" id="photoGrid"></div></section>
+                </section>
+
+                <section class="media-manager-view" id="mediaManagerView" hidden>
+                    <div class="media-panel">
+                        <div class="media-header">
+                            <h3>Home Slider Images</h3>
+                            <label class="upload-box" for="homeUploadInput">
+                                <span>＋ Upload Home Image</span>
+                                <small>JPG, PNG, WEBP · up to 5MB</small>
+                                <input id="homeUploadInput" type="file" accept="image/jpeg,image/png,image/webp">
+                            </label>
+                        </div>
+                        <div class="media-grid" id="homeMediaGrid"></div>
+                    </div>
+
+                    <div class="media-panel">
+                        <div class="media-header">
+                            <h3>Gallery Images</h3>
+                            <label class="upload-box" for="galleryUploadInput">
+                                <span>＋ Upload Gallery Image</span>
+                                <small>JPG, PNG, WEBP · up to 5MB</small>
+                                <input id="galleryUploadInput" type="file" accept="image/jpeg,image/png,image/webp">
+                            </label>
+                        </div>
+                        <div class="media-grid" id="galleryMediaGrid"></div>
+                    </div>
+                </section>
+
+                <section class="messages-view" id="messagesView" hidden>
+                    <h2>Messages</h2>
+                    <div id="messagesList"><p>Log in to load messages.</p></div>
+                </section>
+
+                <section class="testimonials-manager-view" id="testimonialsView" hidden>
+                    <div class="media-panel">
+                        <h3>Add Success Story</h3>
+                        <form id="testimonialForm">
+                            <div class="form-group"><label for="testimonialName">Student name</label><input id="testimonialName" name="name" type="text" required></div>
+                            <div class="form-group"><label for="testimonialQuote">Success story</label><textarea id="testimonialQuote" name="quote" rows="5" required></textarea></div>
+                            <div class="form-group"><label for="testimonialDetails">Details</label><input id="testimonialDetails" name="details" type="text" placeholder="Tokyo, Japan | 100% Scholarship" required></div>
+                            <div class="form-group"><label for="testimonialImage">Student image</label><input id="testimonialImage" name="image" type="file" accept="image/jpeg,image/png,image/webp" required></div>
+                            <button type="submit" class="btn-save">Add Success Story</button>
+                        </form>
+                    </div>
+                    <div id="testimonialsList"><p>Log in to load success stories.</p></div>
+                </section>
+
+        <section id="intakesView" hidden>
+        <h1>🎓 Intake Management</h1>
+        <p style="text-align: center; color: #999; margin-bottom: 30px;">Manage intake information</p>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="april">April Intake</button>
+            <button class="tab-btn" data-tab="october">October Intake</button>
+        </div>
+
+        <!-- April Intake Tab -->
+        <div class="tab-content active" data-tab="april">
+            <div id="statusApril" class="status-message"></div>
+
+            <form id="formApril">
+                <div class="form-group">
+                    <label>Intake Title</label>
+                    <input type="text" id="aprilTitle" placeholder="e.g., 2026 Intake" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Subtitle</label>
+                    <input type="text" id="aprilSubtitle" placeholder="e.g., Main Academic Year Start" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Application Deadline</label>
+                        <input type="text" id="aprilDeadline" placeholder="e.g., Nov 30, 2025" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Course Duration</label>
+                        <input type="text" id="aprilDuration" placeholder="e.g., 1-2 Years" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Visa Processing</label>
+                        <input type="text" id="aprilVisa" placeholder="e.g., Dec 2025 - Jan 2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Departure</label>
+                        <input type="text" id="aprilDeparture" placeholder="e.g., Late March 2026" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Scholarship</label>
+                        <input type="text" id="aprilScholarship" placeholder="e.g., 100% Available" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Part-time Work</label>
+                        <input type="text" id="aprilWork" placeholder="e.g., 28 hrs/week" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Button Text</label>
+                    <input type="text" id="aprilButton" placeholder="e.g., Apply for 2026 Intake →" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-save">💾 Save Changes</button>
+                    <button type="reset" class="btn-reset">🔄 Reset</button>
+                </div>
+
+                <div class="security-note">🔒 Your administrator login protects changes to this intake.</div>
+            </form>
+
+            <div class="intake-preview" id="previewApril"></div>
+        </div>
+
+        <!-- October Intake Tab -->
+        <div class="tab-content" data-tab="october">
+            <div id="statusOctober" class="status-message"></div>
+
+            <form id="formOctober">
+                <div class="form-group">
+                    <label>Intake Title</label>
+                    <input type="text" id="octoberTitle" placeholder="e.g., 2027 Intake" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Subtitle</label>
+                    <input type="text" id="octoberSubtitle" placeholder="e.g., Second Major Intake" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Application Deadline</label>
+                        <input type="text" id="octoberDeadline" placeholder="e.g., May 31, 2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Course Duration</label>
+                        <input type="text" id="octoberDuration" placeholder="e.g., 1.5 Years" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Visa Processing</label>
+                        <input type="text" id="octoberVisa" placeholder="e.g., Jun - Jul 2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Departure</label>
+                        <input type="text" id="octoberDeparture" placeholder="e.g., September 2026" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Scholarship</label>
+                        <input type="text" id="octoberScholarship" placeholder="e.g., Partial to Full" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Part-time Work</label>
+                        <input type="text" id="octoberWork" placeholder="e.g., 28 hrs/week" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Button Text</label>
+                    <input type="text" id="octoberButton" placeholder="e.g., Apply for 2027 Intake →" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-save">💾 Save Changes</button>
+                    <button type="reset" class="btn-reset">🔄 Reset</button>
+                </div>
+
+                <div class="security-note">🔒 Your administrator login protects changes to this intake.</div>
+            </form>
+
+            <div class="intake-preview" id="previewOctober"></div>
+        </div>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '';
+        let intakesData = {};
+        let dashboardData = {};
+        let authToken = '';
+
+        document.getElementById('togglePassword').addEventListener('click', () => {
+            const passwordInput = document.getElementById('loginPassword');
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            document.getElementById('togglePassword').setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const errorElement = document.getElementById('loginError');
+            errorElement.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: document.getElementById('loginPassword').value })
+                });
+                const result = await response.json();
+
+                if (!response.ok) throw new Error(result.error || 'Login failed');
+
+                authToken = result.token;
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminContainer').classList.add('authenticated');
+                await Promise.all([loadIntakes(), loadDashboard(), loadMessages(), loadTestimonials(), loadImageLibrary()]);
+            } catch (error) {
+                errorElement.textContent = error.message;
+                errorElement.style.display = 'block';
+            }
+        });
+
+        document.querySelectorAll('.sidebar-nav button').forEach((button) => {
+            button.addEventListener('click', () => showView(button.dataset.view));
+        });
+
+        function showView(view) {
+            const isDashboard = view === 'dashboard';
+            const isMedia = view === 'media';
+            const isMessages = view === 'messages';
+            const isTestimonials = view === 'testimonials';
+            document.getElementById('dashboardView').hidden = !isDashboard;
+            document.getElementById('mediaManagerView').hidden = !isMedia;
+            document.getElementById('messagesView').hidden = !isMessages;
+            document.getElementById('testimonialsView').hidden = !isTestimonials;
+            document.getElementById('intakesView').hidden = isDashboard || isMedia || isMessages || isTestimonials;
+            document.getElementById('pageTitle').textContent = isDashboard ? 'Dashboard' : isMedia ? 'Media Editor' : isMessages ? 'Messages' : isTestimonials ? 'Success Stories' : 'Manage Intakes';
+            document.querySelectorAll('.sidebar-nav button').forEach((button) => button.classList.toggle('active', button.dataset.view === view));
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer') || (() => {
+                const el = document.createElement('div');
+                el.id = 'toastContainer';
+                el.className = 'toast-container';
+                document.body.appendChild(el);
+                return el;
+            })();
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
+        async function loadMessages() {
+            try {
+                const response = await fetch(`${API_URL}/api/messages`, { headers: { Authorization: `Bearer ${authToken}` } });
+                if (!response.ok) throw new Error('Failed to load messages');
+                const messages = await response.json();
+                document.getElementById('messagesList').innerHTML = messages.length ? messages.slice().reverse().map((message) => `
+                    <article class="message-card"><h3>${escapeHtml(message.fullName)} ${message.read ? '' : '<strong>(Unread)</strong>'}</h3><p>${escapeHtml(message.email)} | ${escapeHtml(message.phone)} | ${escapeHtml(message.intake)}</p><p class="message-body">${escapeHtml(message.message)}</p><div class="message-actions"><button type="button" class="read-btn" data-message-action="read" data-message-id="${encodeURIComponent(message.id || message.timestamp)}">${message.read ? 'Mark unread' : 'Mark read'}</button><button type="button" class="delete-message-btn" data-message-action="delete" data-message-id="${encodeURIComponent(message.id || message.timestamp)}">Delete</button></div></article>
+                `).join('') : '<p>No messages yet.</p>';
+                bindMessageActions();
+            } catch (error) {
+                document.getElementById('messagesList').innerHTML = `<p>${error.message}</p>`;
+            }
+        }
+
+        function bindMessageActions() {
+            document.querySelectorAll('[data-message-action]').forEach((button) => {
+                button.addEventListener('click', async () => {
+                    const messageId = decodeURIComponent(button.dataset.messageId);
+                    if (button.dataset.messageAction === 'delete' && !window.confirm('Delete this message?')) return;
+
+                    try {
+                        const request = button.dataset.messageAction === 'delete'
+                            ? { method: 'DELETE' }
+                            : { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ read: button.textContent === 'Mark unread' ? false : true }) };
+                        const response = await fetch(`${API_URL}/api/messages/${encodeURIComponent(messageId)}`, {
+                            ...request,
+                            headers: { ...(request.headers || {}), Authorization: `Bearer ${authToken}` }
+                        });
+                        const result = await response.json();
+                        if (!response.ok) throw new Error(result.error || 'Message update failed');
+                        showToast(button.dataset.messageAction === 'delete' ? 'Message deleted.' : 'Message status updated.');
+                        await loadMessages();
+                    } catch (error) {
+                        showToast(error.message, 'error');
+                    }
+                });
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+        }
+
+        async function loadTestimonials() {
+            try {
+                const response = await fetch(`${API_URL}/api/testimonials`, { headers: { Authorization: `Bearer ${authToken}` } });
+                if (!response.ok) throw new Error('Failed to load success stories');
+                const testimonials = await response.json();
+                document.getElementById('testimonialsList').innerHTML = testimonials.length ? testimonials.map((story) => `
+                    <form class="testimonial-admin-card testimonial-edit-form" data-testimonial-id="${escapeHtml(story.id)}">
+                        <h3>${escapeHtml(story.name)}</h3>
+                        <div class="form-group"><label>Student name</label><input name="name" type="text" value="${escapeHtml(story.name)}" required></div>
+                        <div class="form-group"><label>Success story</label><textarea name="quote" rows="5" required>${escapeHtml(story.quote)}</textarea></div>
+                        <div class="form-group"><label>Details</label><input name="details" type="text" value="${escapeHtml(story.details)}" required></div>
+                        <div class="form-group"><label>Student image</label><p><img src="${escapeHtml(story.image)}" alt="${escapeHtml(story.name)}" style="width:72px;height:72px;object-fit:cover;border-radius:8px;display:block;margin-bottom:8px;"><input name="image" type="file" accept="image/jpeg,image/png,image/webp"></p></div>
+                        <div class="testimonial-admin-actions"><button type="submit" class="btn-save">Save Changes</button><button type="button" class="delete-testimonial-btn" data-testimonial-action="delete" data-testimonial-id="${escapeHtml(story.id)}">Delete</button></div>
+                    </form>
+                `).join('') : '<p>No success stories yet.</p>';
+            } catch (error) {
+                document.getElementById('testimonialsList').innerHTML = `<p>${escapeHtml(error.message)}</p>`;
+            }
+        }
+
+        async function saveTestimonial(form) {
+            const testimonialId = form.dataset.testimonialId;
+            const formData = new FormData(form);
+            const saveButton = form.querySelector('button[type="submit"]');
+            try {
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving...';
+                const response = await fetch(`${API_URL}/api/testimonials${testimonialId ? `/${encodeURIComponent(testimonialId)}` : ''}`, {
+                    method: testimonialId ? 'PUT' : 'POST',
+                    headers: { Authorization: `Bearer ${authToken}` },
+                    body: formData
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to save success story');
+                showToast(testimonialId ? 'Success story updated.' : 'Success story added.');
+                if (!testimonialId) form.reset();
+                await loadTestimonials();
+            } catch (error) {
+                showToast(error.message, 'error');
+            } finally {
+                saveButton.disabled = false;
+                saveButton.textContent = testimonialId ? 'Save Changes' : 'Add Success Story';
+            }
+        }
+
+        document.getElementById('testimonialForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await saveTestimonial(event.currentTarget);
+        });
+
+        document.addEventListener('submit', async (event) => {
+            if (!event.target.matches('.testimonial-edit-form')) return;
+            event.preventDefault();
+            await saveTestimonial(event.target);
+        });
+
+        document.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-testimonial-action="delete"]');
+            if (!button || !window.confirm('Delete this success story?')) return;
+            try {
+                const response = await fetch(`${API_URL}/api/testimonials/${encodeURIComponent(button.dataset.testimonialId)}`, {
+                    method: 'DELETE', headers: { Authorization: `Bearer ${authToken}` }
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Failed to delete success story');
+                showToast('Success story deleted.');
+                await loadTestimonials();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        });
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/api/dashboard`);
+                if (!response.ok) throw new Error('Failed to load dashboard');
+                dashboardData = await response.json();
+                renderDashboard();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        const mediaState = {
+            home: [],
+            gallery: []
+        };
+
+        async function loadImageLibrary() {
+            try {
+                const [homeRes, galleryRes] = await Promise.all([
+                    fetch(`${API_URL}/api/images/home`),
+                    fetch(`${API_URL}/api/images/gallery`)
+                ]);
+                if (!homeRes.ok || !galleryRes.ok) throw new Error('Failed to load images');
+                const homeData = await homeRes.json();
+                const galleryData = await galleryRes.json();
+                mediaState.home = Array.isArray(homeData.data) ? homeData.data : [];
+                mediaState.gallery = Array.isArray(galleryData.data) ? galleryData.data : [];
+                renderMediaCards();
+            } catch (error) {
+                console.error('Image library error:', error);
+                showToast('Could not load media library.', 'error');
+            }
+        }
+
+        function renderMediaCards() {
+            const homeGrid = document.getElementById('homeMediaGrid');
+            const galleryGrid = document.getElementById('galleryMediaGrid');
+            homeGrid.innerHTML = mediaState.home.map((item) => `
+                <article class="media-card" draggable="true" data-category="home" data-id="${item.id}" data-file="${item.file}">
+                    <span class="drag-handle" aria-label="Drag to reorder">⋮⋮</span>
+                    <div class="media-preview"><img src="${item.url || item.file}" alt="Home image ${item.order}"></div>
+                    <div class="media-info">
+                        <strong>${item.file}</strong>
+                        <div class="media-actions">
+                            <button type="button" class="replace-btn" data-action="replace" data-category="home" data-id="${item.id}">Replace</button>
+                            <button type="button" class="delete-btn" data-action="delete" data-category="home" data-id="${item.id}">Delete</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('') || '<p>No home images yet.</p>';
+            galleryGrid.innerHTML = mediaState.gallery.map((item) => `
+                <article class="media-card" draggable="true" data-category="gallery" data-id="${item.id}" data-file="${item.file}">
+                    <span class="drag-handle" aria-label="Drag to reorder">⋮⋮</span>
+                    <div class="media-preview"><img src="${item.url || item.file}" alt="Gallery image ${item.order}"></div>
+                    <div class="media-info">
+                        <strong>${item.file}</strong>
+                        <div class="media-actions">
+                            <button type="button" class="replace-btn" data-action="replace" data-category="gallery" data-id="${item.id}">Replace</button>
+                            <button type="button" class="delete-btn" data-action="delete" data-category="gallery" data-id="${item.id}">Delete</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('') || '<p>No gallery images yet.</p>';
+            bindMediaDragAndDrop();
+            bindMediaButtons();
+        }
+
+        function bindMediaButtons() {
+            document.querySelectorAll('[data-action="replace"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const { category, id } = button.dataset;
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/jpeg,image/png,image/webp';
+                    input.addEventListener('change', async () => {
+                        const file = input.files[0];
+                        if (!file) return;
+                        await handleReplaceImage(category, id, file);
+                    });
+                    input.click();
+                });
+            });
+
+            document.querySelectorAll('[data-action="delete"]').forEach((button) => {
+                button.addEventListener('click', async () => {
+                    const { category, id } = button.dataset;
+                    const confirmed = window.confirm('Delete this image?');
+                    if (!confirmed) return;
+                    await handleDeleteImage(category, id);
+                });
+            });
+        }
+
+        function bindMediaDragAndDrop() {
+            const cards = document.querySelectorAll('.media-card');
+            cards.forEach((card) => {
+                card.addEventListener('dragstart', (event) => {
+                    event.dataTransfer.setData('text/plain', `${card.dataset.category}:${card.dataset.id}`);
+                    card.classList.add('dragging');
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('dragging');
+                });
+
+                card.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    card.style.borderColor = '#6696ff';
+                });
+
+                card.addEventListener('dragleave', () => {
+                    card.style.borderColor = '#dfe7f7';
+                });
+
+                card.addEventListener('drop', async (event) => {
+                    event.preventDefault();
+                    card.style.borderColor = '#dfe7f7';
+                    const dragged = event.dataTransfer.getData('text/plain');
+                    if (!dragged) return;
+                    const [sourceCategory, sourceId] = dragged.split(':');
+                    const targetCategory = card.dataset.category;
+                    const targetId = card.dataset.id;
+                    if (!sourceCategory || !sourceId || !targetCategory || !targetId || sourceCategory !== targetCategory || sourceId === targetId) return;
+                    await reorderImages(sourceCategory, Number(sourceId), Number(targetId));
+                });
+            });
+        }
+
+        async function handleReplaceImage(category, id, file) {
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                const response = await fetch(`${API_URL}/api/images/${category}/${id}/replace`, {
+                    method: 'PUT',
+                    headers: { Authorization: `Bearer ${authToken}` },
+                    body: formData
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Replace failed');
+                showToast('Image replaced successfully.', 'success');
+                await loadImageLibrary();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function handleDeleteImage(category, id) {
+            try {
+                const response = await fetch(`${API_URL}/api/images/${category}/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${authToken}` } });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Delete failed');
+                showToast('Image deleted successfully.', 'success');
+                await loadImageLibrary();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function reorderImages(category, sourceId, targetId) {
+            try {
+                const list = [...mediaState[category]];
+                const sourceIndex = list.findIndex((item) => Number(item.id) === Number(sourceId));
+                const targetIndex = list.findIndex((item) => Number(item.id) === Number(targetId));
+                if (sourceIndex < 0 || targetIndex < 0) return;
+                const [moved] = list.splice(sourceIndex, 1);
+                list.splice(targetIndex, 0, moved);
+                const reordered = list.map((item, index) => ({ ...item, order: index + 1 }));
+                mediaState[category] = reordered;
+                const response = await fetch(`${API_URL}/api/images/${category}/reorder`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
+                    body: JSON.stringify(reordered)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Reorder failed');
+                await loadImageLibrary();
+                showToast('Image order saved.', 'success');
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function handleUpload(category, file) {
+            if (!file) return;
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                const response = await fetch(`${API_URL}/api/images/${category}/upload`, {
+                    method: 'POST',
+                    headers: { Authorization: `Bearer ${authToken}` },
+                    body: formData
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Upload failed');
+                showToast(`${category.charAt(0).toUpperCase() + category.slice(1)} image uploaded.`, 'success');
+                await loadImageLibrary();
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        document.getElementById('homeUploadInput')?.addEventListener('change', async (event) => {
+            const [file] = event.target.files;
+            if (!file) return;
+            await handleUpload('home', file);
+            event.target.value = '';
+        });
+
+        document.getElementById('galleryUploadInput')?.addEventListener('change', async (event) => {
+            const [file] = event.target.files;
+            if (!file) return;
+            await handleUpload('gallery', file);
+            event.target.value = '';
+        });
+
+        function renderDashboard() {
+            document.getElementById('sidebarBrand').textContent = dashboardData.brand;
+            document.getElementById('sidebarSubtitle').textContent = dashboardData.subtitle;
+            document.getElementById('welcomeText').textContent = dashboardData.welcome;
+            const profile = dashboardData.profile;
+            document.getElementById('profileImage').src = profile.image;
+            document.getElementById('profileName').textContent = profile.name;
+            document.getElementById('profileRole').textContent = profile.role;
+            document.getElementById('profileBio').textContent = profile.bio;
+            document.getElementById('profileContact').textContent = `${profile.email} | ${profile.phone}`;
+            document.getElementById('photoGrid').innerHTML = dashboardData.photos.map((photo) => `<div class="photo-item"><img src="${photo.image}" alt="${photo.caption}"><p>${photo.caption}</p></div>`).join('');
+            document.getElementById('dashboardCards').innerHTML = dashboardData.cards.map((card) => `
+                <article class="dashboard-card"><span class="card-accent" style="background:${card.color}"></span><label>${card.label}</label><strong>${card.value}</strong></article>
+            `).join('');
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Load intakes data
+        async function loadIntakes() {
+            try {
+                const response = await fetch(`${API_URL}/api/intakes`);
+                if (!response.ok) throw new Error('Failed to load intakes');
+                intakesData = await response.json();
+                populateForm('april', intakesData.april);
+                populateForm('october', intakesData.october);
+                updatePreviews();
+            } catch (error) {
+                console.error('Error loading intakes:', error);
+                alert('Could not load intake data. Make sure the server is running on port 3000.');
+            }
+        }
+
+        function populateForm(intake, data) {
+            document.getElementById(`${intake}Title`).value = data.title || '';
+            document.getElementById(`${intake}Subtitle`).value = data.subtitle || '';
+            document.getElementById(`${intake}Deadline`).value = data.applicationDeadline || '';
+            document.getElementById(`${intake}Duration`).value = data.courseDuration || '';
+            document.getElementById(`${intake}Visa`).value = data.visaProcessing || '';
+            document.getElementById(`${intake}Departure`).value = data.departure || '';
+            document.getElementById(`${intake}Scholarship`).value = data.scholarship || '';
+            document.getElementById(`${intake}Work`).value = data.partTimeWork || '';
+            document.getElementById(`${intake}Button`).value = data.buttonText || '';
+        }
+
+        function updatePreviews() {
+            updatePreview('april');
+            updatePreview('october');
+        }
+
+        function updatePreview(intake) {
+            const previewDiv = document.getElementById(`preview${intake.charAt(0).toUpperCase() + intake.slice(1)}`);
+            const data = intakesData[intake];
+            if (data) {
+                previewDiv.innerHTML = `
+                    <h4>${data.icon} ${data.title}</h4>
+                    <p><strong>${data.subtitle}</strong></p>
+                    <p>📅 Deadline: ${data.applicationDeadline}</p>
+                    <p>📚 Duration: ${data.courseDuration}</p>
+                    <p>✈️ Visa: ${data.visaProcessing}</p>
+                    <p>🏖️ Departure: ${data.departure}</p>
+                    <p>🎓 Scholarship: ${data.scholarship}</p>
+                    <p>💼 Work: ${data.partTimeWork}</p>
+                `;
+            }
+        }
+
+        // Form submission
+        document.getElementById('formApril').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await saveIntake('april');
+        });
+
+        document.getElementById('formOctober').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await saveIntake('october');
+        });
+
+        async function saveIntake(intake) {
+            const form = document.getElementById(`form${intake.charAt(0).toUpperCase() + intake.slice(1)}`);
+            const saveButton = form.querySelector('button[type="submit"]');
+            const data = {
+                title: document.getElementById(`${intake}Title`).value,
+                subtitle: document.getElementById(`${intake}Subtitle`).value,
+                applicationDeadline: document.getElementById(`${intake}Deadline`).value,
+                courseDuration: document.getElementById(`${intake}Duration`).value,
+                visaProcessing: document.getElementById(`${intake}Visa`).value,
+                departure: document.getElementById(`${intake}Departure`).value,
+                scholarship: document.getElementById(`${intake}Scholarship`).value,
+                partTimeWork: document.getElementById(`${intake}Work`).value,
+                buttonText: document.getElementById(`${intake}Button`).value,
+            };
+
+            try {
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving...';
+                const response = await fetch(`${API_URL}/api/intakes/${intake}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        authToken = '';
+                        document.getElementById('adminContainer').classList.remove('authenticated');
+                        document.getElementById('loginContainer').style.display = 'block';
+                        document.getElementById('loginError').textContent = 'Your login expired. Please log in again.';
+                        document.getElementById('loginError').style.display = 'block';
+                    }
+                    showStatus(intake, result.error || 'Failed to save', 'error');
+                    return;
+                }
+
+                showStatus(intake, '✅ Intake updated successfully!', 'success');
+                intakesData[intake] = { ...intakesData[intake], ...data };
+                updatePreview(intake);
+            } catch (error) {
+                showStatus(intake, '❌ Error: ' + error.message, 'error');
+            } finally {
+                saveButton.disabled = false;
+                saveButton.textContent = '💾 Save Changes';
+            }
+        }
+
+        function showStatus(intake, message, type) {
+            const statusDiv = document.getElementById(`status${intake.charAt(0).toUpperCase() + intake.slice(1)}`);
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message ${type}`;
+            setTimeout(() => {
+                statusDiv.className = 'status-message';
+            }, 5000);
+        }
+        
+
+    </script>
+</body>
+</html>

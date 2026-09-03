@@ -1,0 +1,26 @@
+{
+  "name": "tewa-backend",
+  "version": "1.0.0",
+  "description": "TEWA Education Consultancy - Intake Management Backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "generate-password": "node backend/scripts/generate-admin-password.js"
+  },
+  "keywords": [
+    "education",
+    "japan",
+    "intakes",
+    "backend"
+  ],
+  "author": "TEWA Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "multer": "^2.1.0"
+  },
+  "devDependencies": {}
+}

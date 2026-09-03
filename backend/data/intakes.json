@@ -1,0 +1,30 @@
+{
+  "april": {
+    "id": "april",
+    "icon": "🌸",
+    "title": "April Intake 2027",
+    "subtitle": "Main Intake",
+    "applicationDeadline": "September 29, 2026",
+    "courseDuration": "2 years japanese language classes ",
+    "visaProcessing": "October  to January",
+    "departure": "Late March ",
+    "scholarship": "100% Chance for Scholarship ",
+    "scholarshipColor": "red",
+    "partTimeWork": "28 hours per weeks ",
+    "buttonText": "Apply Now"
+  },
+  "october": {
+    "id": "october",
+    "icon": "🍂",
+    "title": "October Intake 2027",
+    "subtitle": "Second Intake",
+    "applicationDeadline": "May 29, 2027",
+    "courseDuration": "1 and half year ",
+    "visaProcessing": "june and sepetember ",
+    "departure": "late september ",
+    "scholarship": "full shcolarship chance ",
+    "scholarshipColor": "blue",
+    "partTimeWork": "28 hours per weeks ",
+    "buttonText": "Apply Now "
+  }
+}
