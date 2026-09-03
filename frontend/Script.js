@@ -635,7 +635,10 @@ async function loadManagedGalleryImages() {
     const galleryItems = Array.isArray(result.data) ? result.data : [];
     const galleryGrid = document.querySelector(".gallery-grid");
     if (!galleryGrid) return;
-    if (galleryItems.length === 0) return;
+      if (galleryItems.length === 0) {
+        galleryGrid.innerHTML = '<p class="gallery-empty">No gallery images available.</p>';
+        return;
+      }
     galleryGrid.innerHTML = galleryItems
       .map(
         (image, index) => `

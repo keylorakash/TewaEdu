@@ -1,3 +1,54 @@
+# TEWA Education Consultancy
+
+Static website and small Express CMS for TEWA Education Consultancy.
+
+## Run locally
+
+From the repository root:
+
+```bash
+npm install
+npm start
+```
+
+Open `http://localhost:3000` for the website or `http://localhost:3000/admin.html` for the admin panel.
+
+The backend can also be installed and run independently:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+The default admin password is created on first start. Set `ADMIN_PASSWORD` before the first start to choose a different one.
+
+## Project layout
+
+```text
+backend/
+   server.js                 Express server and API routes
+   routes/images.js          Image upload, ordering, and deletion API
+   data/                     JSON data storage
+   uploads/                  Managed home, gallery, and testimonial uploads
+   scripts/                  Admin utilities
+frontend/
+   *.html                    Public pages and admin panel
+   Script.js                 Shared frontend behavior and API integration
+   style.css                 Shared styles
+   images/                   Bundled site assets
+```
+
+## Main API endpoints
+
+- `GET /api/images/gallery` returns public gallery images.
+- `GET /api/images/home` returns home slider images.
+- `POST /api/images/gallery/upload` uploads a gallery image for an authenticated admin.
+- `POST /api/images/home/upload` uploads a home image for an authenticated admin.
+- `GET /api/intakes` returns intake information.
+
+Gallery and home images uploaded through the admin panel are stored in `backend/uploads/` and become visible on the public pages after refresh.
+
 # 🌸 TEWA Education Consultancy - Complete Project Documentation
 
 A professional, fully-responsive website for TEWA Education Consultancy specializing in study and work opportunities in Japan. This project features a backend server for data management and a modern frontend with dual intake periods (April & October).
@@ -7,12 +58,14 @@ A professional, fully-responsive website for TEWA Education Consultancy speciali
 ## 🚀 Quick Start (2 Steps)
 
 ### Step 1: Install Dependencies
+
 ```powershell
 cd backend
 npm install
 ```
 
 ### Step 2: Start the Server
+
 ```powershell
 npm start
 ```
@@ -71,32 +124,35 @@ TEWA Education/
 
 ## 🌐 Website Pages
 
-| Page | URL | Purpose |
-|------|-----|---------|
-| **Home** | `/index.html` | Hero section + testimonials |
-| **About** | `/about.html` | Company info + language programs + Kaigo scholarship |
-| **Intakes** | `/intakes.html` | April/October intake details + application form |
-| **Services** | `/services.html` | Service offerings + Why Choose Us section |
-| **Gallery** | `/gallery.html` | Student gallery + contact info + Google Maps |
-| **Admin** | `/admin.html` | Admin panel for managing intakes (password protected) |
+| Page         | URL              | Purpose                                               |
+| ------------ | ---------------- | ----------------------------------------------------- |
+| **Home**     | `/index.html`    | Hero section + testimonials                           |
+| **About**    | `/about.html`    | Company info + language programs + Kaigo scholarship  |
+| **Intakes**  | `/intakes.html`  | April/October intake details + application form       |
+| **Services** | `/services.html` | Service offerings + Why Choose Us section             |
+| **Gallery**  | `/gallery.html`  | Student gallery + contact info + Google Maps          |
+| **Admin**    | `/admin.html`    | Admin panel for managing intakes (password protected) |
 
 ---
 
 ## ⚙️ Running the Project
 
 ### Start Server
+
 ```powershell
 cd backend
 npm start
 ```
 
 **Output:**
+
 ```
 ✅ TEWA Backend Server is running on http://localhost:3000
 📊 Admin Panel: http://localhost:3000/admin.html
 ```
 
 ### Access the Website
+
 - **Main Site**: http://localhost:3000/index.html
 - **Admin Panel**: http://localhost:3000/admin.html
 - **API Endpoint**: http://localhost:3000/api/intakes
@@ -108,20 +164,24 @@ npm start
 ### 1. Update Contact Information
 
 **Phone Number:**
+
 - Navbar (line ~50 in index.html & other pages)
 - Contact section (gallery.html)
 - Footer (all pages)
 - WhatsApp button (all pages)
 
 **Email:**
+
 - Contact section
 - Footer (all pages)
 
 **Address:**
+
 - Contact section
 - Footer (all pages)
 
 **How to update:**
+
 1. Open relevant HTML files (`index.html`, `about.html`, etc.)
 2. Find the phone/email/address text
 3. Replace with new information
@@ -130,12 +190,13 @@ npm start
 ### 2. Change Brand Colors
 
 Located in CSS (style.css, lines 23-33):
+
 ```css
 :root {
-    --tewa-red: #FF4747;
-    --tewa-blue: #1E3A8A;
-    --tewa-gold: #F59E0B;
-    /* etc. */
+  --tewa-red: #ff4747;
+  --tewa-blue: #1e3a8a;
+  --tewa-gold: #f59e0b;
+  /* etc. */
 }
 ```
 
@@ -144,10 +205,12 @@ Update any color value and save—all pages will automatically use the new color
 ### 3. Update Intake Information (April/October)
 
 **Option A: Quick Edit HTML**
+
 - Edit `intakes.html` directly and update dates/details
 - Edit `about.html` for scholarship info
 
 **Option B: Use Admin Panel** (Recommended)
+
 1. Go to: http://localhost:3000/admin.html
 2. Enter admin password (default: `tewa123`)
 3. Edit intake details
@@ -155,6 +218,7 @@ Update any color value and save—all pages will automatically use the new color
 5. Changes reflected instantly on website
 
 ⚠️ **Change Admin Password:**
+
 1. Open `/backend/server.js`
 2. Find line with `const ADMIN_PASSWORD = 'tewa123'`
 3. Change to your secure password
@@ -181,6 +245,7 @@ Update any color value and save—all pages will automatically use the new color
 ### Current Intakes
 
 **April Intake** 🌸
+
 - Application Deadline: November 30
 - Course Duration: 1-2 Years
 - Visa Processing: December 2025 - January 2026
@@ -188,6 +253,7 @@ Update any color value and save—all pages will automatically use the new color
 - Part-time Work: 28 hours/week
 
 **October Intake** 🍂
+
 - Application Deadline: May 31
 - Course Duration: 1.5 Years
 - Visa Processing: June - July 2026
@@ -195,6 +261,7 @@ Update any color value and save—all pages will automatically use the new color
 - Part-time Work: 28 hours/week
 
 ### Edit Intake Details
+
 1. **HTML Method**: Edit `intakes.html` directly
 2. **Admin Panel Method**: Use password-protected admin panel at `/admin.html`
 3. **Data Method**: Edit `/backend/data/intakes.json`
@@ -242,11 +309,13 @@ Update any color value and save—all pages will automatically use the new color
 ## 🎯 Key Features
 
 ✅ **Responsive Design**
+
 - Mobile-friendly hamburger menu
 - Optimized for all screen sizes
 - Smooth animations and transitions
 
 ✅ **Application Form**
+
 - Name, Phone, Email, Age
 - Interest selection (Study/Work/Language/Both)
 - Education level dropdown
@@ -254,22 +323,26 @@ Update any color value and save—all pages will automatically use the new color
 - Google Sheets integration (optional)
 
 ✅ **Testimonials Carousel**
+
 - 6 student success stories
 - Automated slide transitions
 - Navigation arrows and dots
 
 ✅ **Hero Image Slider**
+
 - 3 hero images with navigation
 - Automatic rotation with manual controls
 - Smooth transitions
 
 ✅ **Contact Integration**
+
 - WhatsApp floating button
 - Google Maps embedded (office location)
 - Email and phone links
 - Social media links (WhatsApp, Instagram, Facebook, TikTok)
 
 ✅ **Admin Panel**
+
 - Password-protected access
 - Edit intake information without code
 - Real-time updates to website
@@ -279,12 +352,15 @@ Update any color value and save—all pages will automatically use the new color
 ## 🔐 Security
 
 ### Admin Password
+
 - **Location**: `/backend/server.js` (line ~80)
 - **Default**: `tewa123`
 - **⚠️ CHANGE IMMEDIATELY** for production
 
 ### Environment Variables (Optional)
+
 Create `.env` file in root:
+
 ```
 ADMIN_PASSWORD=YourSecurePassword
 PORT=3000
@@ -296,6 +372,7 @@ NODE_ENV=production
 ## 📱 Responsive Breakpoints
 
 The website is optimized for:
+
 - 📱 Mobile: 320px - 480px
 - 📱 Tablet: 481px - 768px
 - 💻 Desktop: 769px and above
@@ -317,6 +394,7 @@ Mobile menu automatically activates for screens under 769px.
 ## 📊 Form Submission
 
 ### Application Form Fields
+
 - Full Name (required)
 - Phone Number (required)
 - Email Address (required)
@@ -326,6 +404,7 @@ Mobile menu automatically activates for screens under 769px.
 - Message (optional)
 
 ### Form Storage
+
 - Submissions stored in `/backend/data/applications.json`
 - Or integrated with Google Sheets (if configured)
 
@@ -334,17 +413,20 @@ Mobile menu automatically activates for screens under 769px.
 ## 🛠️ Technical Stack
 
 **Backend:**
+
 - Node.js & Express.js
 - CORS enabled for frontend communication
 - JSON file storage
 
 **Frontend:**
+
 - HTML5 semantic markup
 - CSS3 with Grid & Flexbox
 - Vanilla JavaScript (no frameworks)
 - Responsive mobile-first design
 
 **Integrations:**
+
 - Google Sheets (optional form storage)
 - Google Maps API
 - WhatsApp Web API
@@ -355,6 +437,7 @@ Mobile menu automatically activates for screens under 769px.
 ## 📞 Support & Contact
 
 **TEWA Education Consultancy**
+
 - **Phone**: +977-9767474000 | +977-15920652
 - **Email**: tewa.educ@gmail.com
 - **Address**: Bhaktapur-4, Suryabinayak Chowk, Nepal
@@ -364,22 +447,23 @@ Mobile menu automatically activates for screens under 769px.
 
 ## 📝 File Statistics
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| style.css | 1279 | All styling & responsive design |
-| Script.js | 197 | Frontend interactivity |
-| index.html | 450+ | Home page |
-| about.html | 350+ | Company & programs |
-| intakes.html | 300+ | Intake details & form |
-| services.html | 250+ | Service listings |
-| gallery.html | 200+ | Gallery & contact |
-| server.js | 300+ | Backend API |
+| File          | Lines | Purpose                         |
+| ------------- | ----- | ------------------------------- |
+| style.css     | 1279  | All styling & responsive design |
+| Script.js     | 197   | Frontend interactivity          |
+| index.html    | 450+  | Home page                       |
+| about.html    | 350+  | Company & programs              |
+| intakes.html  | 300+  | Intake details & form           |
+| services.html | 250+  | Service listings                |
+| gallery.html  | 200+  | Gallery & contact               |
+| server.js     | 300+  | Backend API                     |
 
 ---
 
 ## ✨ Special Features
 
 ### Kaigo (介護) Scholarship Program
+
 - Caregiving industry specialization
 - 100% scholarship coverage
 - Guaranteed employment
@@ -388,6 +472,7 @@ Mobile menu automatically activates for screens under 769px.
 - Career advancement opportunities
 
 ### Why Choose TEWA?
+
 - 📅 Flexible class schedules
 - 👨‍🏫 Experienced native instructors
 - 📋 Complete application support
@@ -400,6 +485,7 @@ Mobile menu automatically activates for screens under 769px.
 ## 🚀 Future Enhancements
 
 Potential improvements:
+
 - [ ] Database integration (MongoDB/PostgreSQL)
 - [ ] Email notifications for applications
 - [ ] Live chat support
@@ -420,6 +506,7 @@ Developed By: Digital Keylor (https://tharuakash.com.np/)
 ## 🤝 Contributing
 
 To update this documentation:
+
 1. Make changes to relevant HTML/CSS/JS files
 2. Test thoroughly
 3. Update this README.md if features change
