@@ -1,238 +1,263 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/logo.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <title>Gallery & Contact - TEWA Education Consultancy</title>
-    <meta name="description"
-        content="View our gallery of student experiences and programs. Contact TEWA Education Consultancy in Bhaktapur, Nepal for more information.">
+    <meta
+      name="description"
+      content="View our gallery of student experiences and programs. Contact TEWA Education Consultancy in Bhaktapur, Nepal for more information."
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <!-- Professional Navigation -->
     <nav id="navbar">
-        <div class="nav-container">
-            <!-- Logo -->
-            <a href="index.html" class="logo">
-                <div class="logo-mark">
-                    <img src="images/logo.png" alt="TEWA Education Consultancy Logo">
-                </div>
-                <div class="logo-text">
-                    <span class="brand">TEWA </span>
-                    <span class="tagline">Education Consultancy</span>
-                </div>
-            </a>
+      <div class="nav-container">
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <div class="logo-mark">
+            <img src="images/logo.png" alt="TEWA Education Consultancy Logo" />
+          </div>
+          <div class="logo-text">
+            <span class="brand">TEWA </span>
+            <span class="tagline">Education Consultancy</span>
+          </div>
+        </a>
 
-            <!-- Contact & Navigation -->
-            <div class="nav-contact-info">
-                <a href="tel:+9779767474000" class="nav-phone-box">
-                    <span class="icon">📞</span>
-                    <div class="info">
-                        <span class="label">Call Now</span>
-                        <span class="number">+977-9767474000</span>
-                    </div>
-                </a>
-
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="intakes.html">Intakes</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="intakes.html" class="nav-cta">Apply Now</a></li>
-                </ul>
+        <!-- Contact & Navigation -->
+        <div class="nav-contact-info">
+          <a href="tel:+9779767474000" class="nav-phone-box">
+            <span class="icon">📞</span>
+            <div class="info">
+              <span class="label">Call Now</span>
+              <span class="number">+977-9767474000</span>
             </div>
+          </a>
 
-            <!-- Mobile Menu -->
-            <div class="mobile-menu" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="intakes.html">Intakes</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="intakes.html" class="nav-cta">Apply Now</a></li>
+          </ul>
         </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" onclick="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </nav>
 
     <!-- Gallery Section -->
     <section class="gallery" id="gallery">
-        <div class="section-header">
-            <h2>Gallery</h2>
-            <p>Explore moments from our programs and student experiences.</p>
+      <div class="section-header">
+        <h2>Gallery</h2>
+        <p>Explore moments from our programs and student experiences.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="images/7.png" alt="Gallery Image 01" />
+          <div class="gallery-overlay">
+            <p>Student Event</p>
+          </div>
         </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="images/7.png" alt="Gallery Image 01">
-                <div class="gallery-overlay">
-                    <p>Student Event</p>
-                </div>
-            </div>
 
-            <div class="gallery-item">
-                <img src="images/1.png" alt="Gallery Image 02">
-                <div class="gallery-overlay">
-                    <p>Class Activity</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/Campus Tour.png" alt="Gallery Image 03">
-                <div class="gallery-overlay">
-                    <p>Campus Tour</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/3.png" alt="Gallery Image 04">
-                <div class="gallery-overlay">
-                    <p>Graduation Day</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/japan Trip.png" alt="Gallery Image 05">
-                <div class="gallery-overlay">
-                    <p>Japan Trip</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/Student Gathering.png" alt="Gallery Image 06">
-                <div class="gallery-overlay">
-                    <p>Student Gathering</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/Success.png" alt="Gallery Image 07">
-                <div class="gallery-overlay">
-                    <p>Success Celebration</p>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/tewa.png" alt="Gallery Image 08">
-                <div class="gallery-overlay">
-                    <p>Office Team</p>
-                </div>
-            </div>
+        <div class="gallery-item">
+          <img src="images/1.png" alt="Gallery Image 02" />
+          <div class="gallery-overlay">
+            <p>Class Activity</p>
+          </div>
         </div>
+
+        <div class="gallery-item">
+          <img src="images/Campus Tour.png" alt="Gallery Image 03" />
+          <div class="gallery-overlay">
+            <p>Campus Tour</p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="images/3.png" alt="Gallery Image 04" />
+          <div class="gallery-overlay">
+            <p>Graduation Day</p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="images/japan Trip.png" alt="Gallery Image 05" />
+          <div class="gallery-overlay">
+            <p>Japan Trip</p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="images/Student Gathering.png" alt="Gallery Image 06" />
+          <div class="gallery-overlay">
+            <p>Student Gathering</p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="images/Success.png" alt="Gallery Image 07" />
+          <div class="gallery-overlay">
+            <p>Success Celebration</p>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="images/tewa.png" alt="Gallery Image 08" />
+          <div class="gallery-overlay">
+            <p>Office Team</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2>Contact Us</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Contact Us</h2>
 
-                <div class="contact-item">
-                    <div class="contact-icon-large">📍</div>
-                    <div class="contact-text">
-                        <h3>Visit Our Office</h3>
-                        <p>Bhaktapur-4, Suryabinayak Chowk, Bhaktapur Nepal</p>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon-large">📞</div>
-                    <div class="contact-text">
-                        <h3>Call Us</h3>
-                        <p>+977-15920652<br>+977-9767474000</p>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon-large">✉️</div>
-                    <div class="contact-text">
-                        <h3>Email Us</h3>
-                        <p>tewa.educ@gmail.com</p>
-                    </div>
-                </div>
-
-                <div class="contact-item">
-                    <div class="contact-icon-large">🕐</div>
-                    <div class="contact-text">
-                        <h3>Office Hours</h3>
-                        <p>Sunday - Friday: 7:00 AM - 6:30 PM </p>
-                    </div>
-                </div>
+          <div class="contact-item">
+            <div class="contact-icon-large">📍</div>
+            <div class="contact-text">
+              <h3>Visit Our Office</h3>
+              <p>Bhaktapur-4, Suryabinayak Chowk, Bhaktapur Nepal</p>
             </div>
+          </div>
 
-            <div class="map-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.669875418429!2d85.42473517516973!3d27.66568372732834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1b00520dc45d%3A0x1eb5d2b844a87ce0!2sTEWA%20EDUCATION%20CONSULTANCY!5e0!3m2!1sen!2snp!4v1776244178618!5m2!1sen!2snp"
-                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-
+          <div class="contact-item">
+            <div class="contact-icon-large">📞</div>
+            <div class="contact-text">
+              <h3>Call Us</h3>
+              <p>+977-15920652<br />+977-9767474000</p>
             </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon-large">✉️</div>
+            <div class="contact-text">
+              <h3>Email Us</h3>
+              <p>tewa.educ@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon-large">🕐</div>
+            <div class="contact-text">
+              <h3>Office Hours</h3>
+              <p>Sunday - Friday: 7:00 AM - 6:30 PM</p>
+            </div>
+          </div>
         </div>
+
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.669875418429!2d85.42473517516973!3d27.66568372732834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1b00520dc45d%3A0x1eb5d2b844a87ce0!2sTEWA%20EDUCATION%20CONSULTANCY!5e0!3m2!1sen!2snp!4v1776244178618!5m2!1sen!2snp"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>TEWA Education</h3>
-                <p>Your trusted partner for studying and working in Japan. Direct connection to Japanese colleges with
-                    expert documentation support.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="index.html">Home</a>
-                <a href="about.html">About Us</a>
-                <a href="intakes.html">Intakes</a>
-                <a href="services.html">Our Services</a>
-                <a href="gallery.html">Gallery</a>
-            </div>
-            <div class="footer-section">
-                <h3>Intakes</h3>
-                <a href="intakes.html">🌸 April Intake (Main Intake)</a>
-                <a href="intakes.html">🍂 October Intake (Secondary Intake)</a>
-                <a href="services.html">Expert Documentation</a>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Bhaktapur-4, Suryabinayak Chowk</p>
-                <p>+977-15920652</p>
-                <p>+977-9767474000</p>
-                <p>tewa.educ@gmail.com</p>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>TEWA Education</h3>
+          <p>
+            Your trusted partner for studying and working in Japan. Direct
+            connection to Japanese colleges with expert documentation support.
+          </p>
         </div>
-
-        <div class="footer-bottom">
-            <p class="footer-cta">Start Your Journey to Japan Today 🎌</p>
-            <p style="opacity: 0.7; margin-bottom: 20px;">Copyright © 2026 TEWA Education Consultancy. All Rights
-                Reserved. Developed By: <a href="https://tharuakash.com.np/" target="_blank">Digital Keylor</a></p>
-            <h3>Follow Us</h3>
-            <div class="social-links">
-
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-                <a href="https://wa.me/9779767474000" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://www.instagram.com/tewaeducations_" class="social-icon"><i
-                        class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.facebook.com/share/17DeCMUUZL/" class="social-icon"><i
-                        class="fa-brands fa-facebook"></i></a>
-                <a href="https://www.tiktok.com/@tewa.education?_r=1&_t=ZS-95aEPjAPXfg" class="social-icon"><i
-                        class="fa-brands fa-tiktok"></i></a>
-
-
-            </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="intakes.html">Intakes</a>
+          <a href="services.html">Our Services</a>
+          <a href="gallery.html">Gallery</a>
         </div>
+        <div class="footer-section">
+          <h3>Intakes</h3>
+          <a href="intakes.html">🌸 April Intake (Main Intake)</a>
+          <a href="intakes.html">🍂 October Intake (Secondary Intake)</a>
+          <a href="services.html">Expert Documentation</a>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <p>Bhaktapur-4, Suryabinayak Chowk</p>
+          <p>+977-15920652</p>
+          <p>+977-9767474000</p>
+          <p>tewa.educ@gmail.com</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-cta">Start Your Journey to Japan Today 🎌</p>
+        <p style="opacity: 0.7; margin-bottom: 20px">
+          Copyright © 2026 TEWA Education Consultancy. All Rights Reserved.
+          Developed By:
+          <a href="https://tharuakash.com.np/" target="_blank"
+            >Digital Keylor</a
+          >
+        </p>
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          />
+
+          <a href="https://wa.me/9779767474000" class="social-icon"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+          <a
+            href="https://www.instagram.com/tewaeducations_"
+            class="social-icon"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a
+            href="https://www.facebook.com/share/17DeCMUUZL/"
+            class="social-icon"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+          <a
+            href="https://www.tiktok.com/@tewa.education?_r=1&_t=ZS-95aEPjAPXfg"
+            class="social-icon"
+            ><i class="fa-brands fa-tiktok"></i
+          ></a>
+        </div>
+      </div>
     </footer>
 
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/9779767474000" class="whatsapp-btn" target="_blank" title="Chat on WhatsApp">
-        💬
+    <a
+      href="https://wa.me/9779767474000"
+      class="whatsapp-btn"
+      target="_blank"
+      title="Chat on WhatsApp"
+    >
+      💬
     </a>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
-
-</body>
-
+    <script src="Script.js"></script>
+  </body>
 </html>

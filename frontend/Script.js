@@ -109,6 +109,7 @@ function selectFormIntake(type) {
   const aprilOption = document.getElementById("aprilOption");
   const octoberOption = document.getElementById("octoberOption");
   const hiddenInput = document.getElementById("selectedIntake");
+  if (!aprilOption || !octoberOption || !hiddenInput) return;
 
   if (type === "april") {
     aprilOption.classList.add("selected");
@@ -203,7 +204,7 @@ function toggleMobileMenu() {
   const navContainer = document.querySelector(".nav-container");
   const navLinks = document.querySelector(".nav-links");
   const navContact = document.querySelector(".nav-contact-info");
-  
+
   navContainer.classList.toggle("mobile-open");
   navLinks.classList.toggle("show");
   navContact.classList.toggle("show");
@@ -234,30 +235,35 @@ function smoothScrollToElement(elementId) {
 // Reviews Handler (Google Maps)
 function handleReviewsClick(e) {
   e?.preventDefault();
-  const mapsUrl = "https://www.google.com/maps/place/TEWA+EDUCATION+CONSULTANCY/@27.6656827,85.4247371,15z/data=!4m6!3m5!1s0x39eb1b00520dc45d:0x1eb5d2b844a87ce0!8m2!3d27.6656827!4d85.4247371!16s%2Fg%2F11p59fcvgp?entry=ttu";
+  const mapsUrl =
+    "https://www.google.com/maps/place/TEWA+EDUCATION+CONSULTANCY/@27.6656827,85.4247371,15z/data=!4m6!3m5!1s0x39eb1b00520dc45d:0x1eb5d2b844a87ce0!8m2!3d27.6656827!4d85.4247371!16s%2Fg%2F11p59fcvgp?entry=ttu";
   window.open(mapsUrl, "_blank");
 }
 
 // Unified anchor link handler
-document.addEventListener("click", (e) => {
-  const link = e.target.closest("a[href^='#']");
-  if (!link) return;
-  
-  // Handle reviews button specially
-  if (link.hasAttribute("data-reviews")) {
-    handleReviewsClick(e);
-    return;
-  }
-  
-  // Skip if it has target="_blank"
-  if (link.getAttribute("target") === "_blank") return;
-  
-  e.preventDefault();
-  const href = link.getAttribute("href");
-  if (href && href !== "#") {
-    smoothScrollToElement(href.substring(1));
-  }
-}, true);
+document.addEventListener(
+  "click",
+  (e) => {
+    const link = e.target.closest("a[href^='#']");
+    if (!link) return;
+
+    // Handle reviews button specially
+    if (link.hasAttribute("data-reviews")) {
+      handleReviewsClick(e);
+      return;
+    }
+
+    // Skip if it has target="_blank"
+    if (link.getAttribute("target") === "_blank") return;
+
+    e.preventDefault();
+    const href = link.getAttribute("href");
+    if (href && href !== "#") {
+      smoothScrollToElement(href.substring(1));
+    }
+  },
+  true,
+);
 
 // ==========================================
 // Navbar Scroll Effect
@@ -340,27 +346,42 @@ async function loadManagedTestimonials() {
     const dots = document.getElementById("successCarouselDots");
     if (!track || !dots) return;
 
-    const cards = testimonials.map((story) => `
+    const cards = testimonials.map(
+      (story) => `
       <div class="success-card">
         <div class="card-left"><div class="student-avatar-circle"><img src="${escapeHtml(story.image)}" alt="${escapeHtml(story.name)}"></div></div>
         <div class="card-right"><span class="quote-icon">“</span><p class="testimonial-quote-text">${escapeHtml(story.quote)}</p><h4 class="student-name">${escapeHtml(story.name)}</h4><p class="student-details">${escapeHtml(story.details)}</p></div>
       </div>
-    `);
+    `,
+    );
     const slides = [];
     for (let index = 0; index < cards.length; index += 2) {
-      slides.push(`<div class="success-carousel-slide${index === 0 ? ' active' : ''}">${cards.slice(index, index + 2).join('')}</div>`);
+      slides.push(
+        `<div class="success-carousel-slide${index === 0 ? " active" : ""}">${cards.slice(index, index + 2).join("")}</div>`,
+      );
     }
-    track.innerHTML = slides.join('');
-    dots.innerHTML = slides.map((_, index) => `<span class="dot ${index === 0 ? 'active' : ''}" onclick="setTestimonialSlide(${index})"></span>`).join('');
+    track.innerHTML = slides.join("");
+    dots.innerHTML = slides
+      .map(
+        (_, index) =>
+          `<span class="dot ${index === 0 ? "active" : ""}" onclick="setTestimonialSlide(${index})"></span>`,
+      )
+      .join("");
     testimonialIndex = 0;
     initTestimonialSlider();
   } catch (error) {
-    console.warn('Could not load success stories:', error.message);
+    console.warn("Could not load success stories:", error.message);
   }
 }
 
 function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        character
+      ],
+  );
 }
 
 function showTestimonialSlide(n) {
@@ -449,23 +470,23 @@ async function loadIntakesFromBackend() {
   try {
     const response = await fetch(`${API_URL}/api/intakes`);
     if (!response.ok) {
-      console.warn('Backend not available. Using static data.');
+      console.warn("Backend not available. Using static data.");
       return false;
     }
-    
+
     const intakes = await response.json();
-    
+
     // Update April Intake Card
-    updateIntakeCard('april', intakes.april);
-    
+    updateIntakeCard("april", intakes.april);
+
     // Update October Intake Card
-    updateIntakeCard('october', intakes.october);
-    
-    console.log('✅ Intakes loaded from backend successfully');
+    updateIntakeCard("october", intakes.october);
+
+    console.log("✅ Intakes loaded from backend successfully");
     return true;
   } catch (error) {
-    console.warn('Could not connect to backend:', error.message);
-    console.log('Using static data instead.');
+    console.warn("Could not connect to backend:", error.message);
+    console.log("Using static data instead.");
     return false;
   }
 }
@@ -476,16 +497,16 @@ async function loadContainerHeadings() {
     if (!response.ok) return;
     const dashboard = await response.json();
     const headingSelectors = {
-      home: '.hero-content h1',
-      about: '.about-content h2',
-      'language-programs': '.language-programs .section-header h2',
-      'kaigo-program': '.kaigo-program .section-header h2',
-      services: '.services .section-header h2',
-      'why-us': '.why-us .section-header h2',
-      apply: '.application .form-header h2',
-      testimonials: '.testimonials .section-header h2',
-      gallery: '.gallery .section-header h2',
-      contact: '.contact-info h2'
+      home: ".hero-content h1",
+      about: ".about-content h2",
+      "language-programs": ".language-programs .section-header h2",
+      "kaigo-program": ".kaigo-program .section-header h2",
+      services: ".services .section-header h2",
+      "why-us": ".why-us .section-header h2",
+      apply: ".application .form-header h2",
+      testimonials: ".testimonials .section-header h2",
+      gallery: ".gallery .section-header h2",
+      contact: ".contact-info h2",
     };
     (dashboard.containers || []).forEach((container) => {
       const heading = document.querySelector(headingSelectors[container.id]);
@@ -493,74 +514,82 @@ async function loadContainerHeadings() {
     });
     const whyChoose = dashboard.whyChoose;
     if (whyChoose) {
-      const whySection = document.querySelector('.why-us');
-      const subtitle = whySection?.querySelector('.section-header p');
-      if (subtitle && whyChoose.subtitle) subtitle.textContent = whyChoose.subtitle;
+      const whySection = document.querySelector(".why-us");
+      const subtitle = whySection?.querySelector(".section-header p");
+      if (subtitle && whyChoose.subtitle)
+        subtitle.textContent = whyChoose.subtitle;
       (whyChoose.items || []).forEach((item, index) => {
-        const feature = whySection?.querySelectorAll('.feature-box')[index];
+        const feature = whySection?.querySelectorAll(".feature-box")[index];
         if (!feature) return;
-        const icon = feature.querySelector('.feature-icon-big');
-        const title = feature.querySelector('h3');
-        const text = feature.querySelector('p');
+        const icon = feature.querySelector(".feature-icon-big");
+        const title = feature.querySelector("h3");
+        const text = feature.querySelector("p");
         if (icon) icon.textContent = item.icon;
         if (title) title.textContent = item.title;
         if (text) text.textContent = item.text;
       });
     }
   } catch (error) {
-    console.warn('Could not load frontend container headings:', error.message);
+    console.warn("Could not load frontend container headings:", error.message);
   }
 }
 
 function updateIntakeCard(intakeId, intakeData) {
   // Find the intake card container
-  const isApril = intakeId === 'april';
-  const cardClass = isApril ? '.intake-card-large.april' : '.intake-card-large.october';
+  const isApril = intakeId === "april";
+  const cardClass = isApril
+    ? ".intake-card-large.april"
+    : ".intake-card-large.october";
   const card = document.querySelector(cardClass);
-  
+
   if (!card) {
     console.warn(`Could not find ${intakeId} intake card`);
     return;
   }
 
   // Update card content
-  const titleElement = card.querySelector('.intake-title h3');
-  const subtitleElement = card.querySelector('.intake-title p');
-  
+  const titleElement = card.querySelector(".intake-title h3");
+  const subtitleElement = card.querySelector(".intake-title p");
+
   if (titleElement) titleElement.textContent = intakeData.title;
   if (subtitleElement) subtitleElement.textContent = intakeData.subtitle;
 
   // Update details list
-  const details = card.querySelectorAll('.intake-details-list li');
-  
+  const details = card.querySelectorAll(".intake-details-list li");
+
   if (details[0]) {
-    details[0].querySelector('.detail-value, .deadline-highlight').textContent = intakeData.applicationDeadline;
+    details[0].querySelector(".detail-value, .deadline-highlight").textContent =
+      intakeData.applicationDeadline;
   }
   if (details[1]) {
-    details[1].querySelector('.detail-value').textContent = intakeData.courseDuration;
+    details[1].querySelector(".detail-value").textContent =
+      intakeData.courseDuration;
   }
   if (details[2]) {
-    details[2].querySelector('.detail-value').textContent = intakeData.visaProcessing;
+    details[2].querySelector(".detail-value").textContent =
+      intakeData.visaProcessing;
   }
   if (details[3]) {
-    details[3].querySelector('.detail-value').textContent = intakeData.departure;
+    details[3].querySelector(".detail-value").textContent =
+      intakeData.departure;
   }
   if (details[4]) {
-    const scholarshipElement = details[4].querySelector('.detail-value');
+    const scholarshipElement = details[4].querySelector(".detail-value");
     scholarshipElement.textContent = intakeData.scholarship;
     // Update color based on scholarshipColor
-    if (intakeData.scholarshipColor === 'red') {
-      scholarshipElement.style.color = 'var(--tewa-red)';
-    } else if (intakeData.scholarshipColor === 'blue') {
-      scholarshipElement.style.color = 'var(--tewa-blue)';
+    if (intakeData.scholarshipColor === "red") {
+      scholarshipElement.style.color = "var(--tewa-red)";
+    } else if (intakeData.scholarshipColor === "blue") {
+      scholarshipElement.style.color = "var(--tewa-blue)";
     }
   }
   if (details[5]) {
-    details[5].querySelector('.detail-value').textContent = intakeData.partTimeWork;
+    details[5].querySelector(".detail-value").textContent =
+      intakeData.partTimeWork;
   }
 
   // Update button text
-  const button = card.querySelector('.intake-btn');
+  const button = card.querySelector(".intake-btn");
   if (button) button.textContent = intakeData.buttonText;
 }
 
@@ -570,20 +599,31 @@ async function loadManagedHomeImages() {
     if (!response.ok) return;
     const result = await response.json();
     const slides = Array.isArray(result.data) ? result.data : [];
-    const slider = document.querySelector('#heroSlider .slider-slides');
-    const dots = document.querySelector('#heroSlider .slider-dots');
+    const slider = document.querySelector("#heroSlider .slider-slides");
+    const dots = document.querySelector("#heroSlider .slider-dots");
     if (!slider || !dots) return;
-    slider.innerHTML = slides.slice(0, 3).map((image, index) => `
-      <div class="slide ${index === 0 ? 'active' : ''}">
+    slider.innerHTML = slides
+      .slice(0, 3)
+      .map(
+        (image, index) => `
+      <div class="slide ${index === 0 ? "active" : ""}">
         <img src="${image.url}" alt="Home slider image ${index + 1}" class="student-image">
       </div>
-    `).join('');
-    dots.innerHTML = slides.slice(0, 3).map((_, index) => `<span class="dot ${index === 0 ? 'active' : ''}" onclick="setHeroSlide(${index})"></span>`).join('');
-    heroSlides = slider.querySelectorAll('.slide');
-    heroDots = dots.querySelectorAll('.dot');
+    `,
+      )
+      .join("");
+    dots.innerHTML = slides
+      .slice(0, 3)
+      .map(
+        (_, index) =>
+          `<span class="dot ${index === 0 ? "active" : ""}" onclick="setHeroSlide(${index})"></span>`,
+      )
+      .join("");
+    heroSlides = slider.querySelectorAll(".slide");
+    heroDots = dots.querySelectorAll(".dot");
     showHeroSlide(0);
   } catch (error) {
-    console.warn('Could not load home images:', error.message);
+    console.warn("Could not load home images:", error.message);
   }
 }
 
@@ -593,20 +633,23 @@ async function loadManagedGalleryImages() {
     if (!response.ok) return;
     const result = await response.json();
     const galleryItems = Array.isArray(result.data) ? result.data : [];
-    const galleryGrid = document.querySelector('.gallery-grid');
+    const galleryGrid = document.querySelector(".gallery-grid");
     if (!galleryGrid) return;
     if (galleryItems.length === 0) return;
-    const images = galleryItems.slice(0, 8);
-    galleryGrid.innerHTML = images.map((image, index) => `
+    galleryGrid.innerHTML = galleryItems
+      .map(
+        (image, index) => `
       <div class="gallery-item">
         <img src="${image.url}" alt="Gallery Image ${index + 1}">
         <div class="gallery-overlay">
           <p>Gallery ${index + 1}</p>
         </div>
       </div>
-    `).join('');
+    `,
+      )
+      .join("");
   } catch (error) {
-    console.warn('Could not load gallery images:', error.message);
+    console.warn("Could not load gallery images:", error.message);
   }
 }
 
@@ -631,7 +674,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadIntakesFromBackend();
   loadContainerHeadings();
   loadManagedHomeImages();
+  loadManagedGalleryImages();
 });
-
-
-

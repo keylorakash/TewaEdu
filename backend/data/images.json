@@ -1,61 +1,46 @@
 {
   "home": [
     {
-      "id": 2,
-      "file": "d20880ea52af40a0587a557ab2f9e055.png",
-      "order": 1
-    },
-    {
       "id": 3,
       "file": "a5e2b0588ea8e80bce90fb54308cd39f.png",
-      "order": 2
+      "order": 1
     },
     {
       "id": 4,
       "file": "ce39facf3a32a45ce8806f87fb99f05e.png",
-      "order": 3
+      "order": 2
     }
   ],
   "gallery": [
     {
-      "id": 2,
-      "file": "b62210191cff833cacff88f3533a03df.png",
-      "order": 1
-    },
-    {
-      "id": 3,
-      "file": "46fb420ddff059d5b90e9fe1927c72bd.png",
-      "order": 2
-    },
-    {
-      "id": 4,
-      "file": "101946f2e7f43bdb4d048c6cce0f49a7.png",
-      "order": 3
-    },
-    {
-      "id": 5,
-      "file": "e7644dd67ca3655cbda348b3455c76cb.png",
-      "order": 4
-    },
-    {
       "id": 6,
       "file": "3923b4f6849d1acb795985919bf85055.jpg",
-      "order": 5
+      "order": 1
     },
     {
       "id": 7,
       "file": "8a48dbc82ae6802486ab461eb582c811.png",
-      "order": 6
+      "order": 2
     },
     {
       "id": 8,
       "file": "52bc6859b3fcf63ab366762c1df126c7.png",
-      "order": 7
+      "order": 3
     },
     {
       "id": 9,
       "file": "3859b570c662e0d397f286ec5a57f3f9.jpg",
-      "order": 8
+      "order": 4
+    },
+    {
+      "id": 10,
+      "file": "3c7024044af9e26a8d2abd0d021bf343.png",
+      "order": 5
+    },
+    {
+      "id": 11,
+      "file": "d307858aee6f49fa528eba197daca46d.png",
+      "order": 6
     }
   ]
 }
