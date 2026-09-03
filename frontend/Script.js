@@ -460,11 +460,13 @@ function stopTestimonialAutoPlay() {
 // Load Intakes from Backend
 // ==========================================
 
+const configuredApiUrl = String(window.TEWA_API_URL || "").replace(/\/+$/, "");
 const API_URL =
-  window.location.hostname === "localhost" ||
+  configuredApiUrl ||
+  (window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:3000"
-    : "";
+    : "");
 
 async function loadIntakesFromBackend() {
   try {
@@ -628,17 +630,21 @@ async function loadManagedHomeImages() {
 }
 
 async function loadManagedGalleryImages() {
+  const galleryGrid = document.querySelector(".gallery-grid");
+  if (!galleryGrid) return;
+
   try {
     const response = await fetch(`${API_URL}/api/images/gallery`);
-    if (!response.ok) return;
+    if (!response.ok) {
+      throw new Error(`Gallery request failed with status ${response.status}`);
+    }
     const result = await response.json();
     const galleryItems = Array.isArray(result.data) ? result.data : [];
-    const galleryGrid = document.querySelector(".gallery-grid");
-    if (!galleryGrid) return;
-      if (galleryItems.length === 0) {
-        galleryGrid.innerHTML = '<p class="gallery-empty">No gallery images available.</p>';
-        return;
-      }
+    if (galleryItems.length === 0) {
+      galleryGrid.innerHTML =
+        '<p class="gallery-empty">No gallery images available.</p>';
+      return;
+    }
     galleryGrid.innerHTML = galleryItems
       .map(
         (image, index) => `
@@ -651,8 +657,20 @@ async function loadManagedGalleryImages() {
     `,
       )
       .join("");
+
+    galleryGrid.querySelectorAll("img").forEach((image) => {
+      image.addEventListener("error", () => {
+        image.closest(".gallery-item")?.remove();
+        if (!galleryGrid.querySelector(".gallery-item")) {
+          galleryGrid.innerHTML =
+            '<p class="gallery-empty">Gallery images could not be loaded.</p>';
+        }
+      });
+    });
   } catch (error) {
-    console.warn("Could not load gallery images:", error.message);
+    console.error("Could not load gallery images:", error);
+    galleryGrid.innerHTML =
+      '<p class="gallery-empty">Gallery is temporarily unavailable. Please try again later.</p>';
   }
 }
 

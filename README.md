@@ -23,6 +23,17 @@ npm start
 
 The default admin password is created on first start. Set `ADMIN_PASSWORD` before the first start to choose a different one.
 
+For a separate frontend deployment, define `window.TEWA_API_URL` before loading `Script.js` and before the admin panel script. Set the backend `FRONTEND_ORIGIN` to the frontend origin. For example:
+
+```html
+<script>
+  window.TEWA_API_URL = "https://api.example.com";
+</script>
+<script src="Script.js"></script>
+```
+
+Set `PUBLIC_API_URL=https://api.example.com` on the backend so gallery image URLs point to the API host. Set `UPLOADS_DIR` and `DATA_DIR` to persistent mounted directories; local filesystem storage is not durable on many serverless hosts.
+
 ## Project layout
 
 ```text
