@@ -44,3 +44,14 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 *.db
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
+coverage/
+.DS_Store
+*.log
+npm-debug.log*
+.vscode/
